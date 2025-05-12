@@ -30,7 +30,7 @@ export default function App() {
 
   useEffect(() => {
     fetch(
-      `http://localhost:4000/get-token?identity=${identity}&room=${roomName}`
+      `https://vidq-p4yy.onrender.com/get-token?identity=${identity}&room=${roomName}`
     )
       .then((res) => res.json())
       .then((data) => {
