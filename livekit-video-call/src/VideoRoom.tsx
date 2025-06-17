@@ -5,6 +5,8 @@ import {
   RoomAudioRenderer,
   useTracks,
   RoomContext,
+  TrackToggle,
+  DisconnectButton,
 } from "@livekit/components-react";
 import { Room, Track } from "livekit-client";
 import "@livekit/components-styles";
@@ -65,13 +67,72 @@ export default function App() {
 
   return (
     <RoomContext.Provider value={room}>
-      <div data-lk-theme="default" style={{ height: "100vh" }}>
-        {/* Your custom component with basic video conferencing functionality. */}
-        <MyVideoConference />
-        {/* The RoomAudioRenderer takes care of room-wide audio for you. */}
+      <div
+        data-lk-theme="default"
+        style={{
+          height: "100vh",
+          display: "flex",
+          background: "#313338",
+          color: "#fff",
+          fontFamily: '"gg sans", "Noto Sans", "Helvetica Neue", Helvetica, Arial, sans-serif',
+        }}
+      >
+        {/* Sidebar for participants */}
+        <div
+          style={{
+            width: 260,
+            background: "#232428",
+            borderRight: "1px solid #222",
+            display: "flex",
+            flexDirection: "column",
+            padding: "16px 0",
+            boxSizing: "border-box",
+          }}
+        >
+          <ParticipantsSidebar />
+        </div>
+        {/* Main video area */}
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", position: "relative" }}>
+          <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <MyVideoConference />
+          </div>
+          {/* Bottom control bar */}
+          <div
+            style={{
+              position: "absolute",
+              left: 0,
+              right: 0,
+              bottom: 32,
+              display: "flex",
+              justifyContent: "center",
+              pointerEvents: "none",
+            }}
+          >
+            <div style={{ pointerEvents: "auto" }}>
+              <div
+                style={{
+                  display: "flex",
+                  gap: 24,
+                  background: "#232428",
+                  borderRadius: 24,
+                  boxShadow: "0 2px 12px #0006",
+                  padding: "12px 32px",
+                  alignItems: "center",
+                }}
+              >
+                {/* Audio (mute/unmute) */}
+                <TrackToggle source="microphone" />
+                {/* Camera */}
+                <TrackToggle source="camera" />
+                {/* Screen share */}
+                <TrackToggle source="screen_share" />
+                {/* Leave call */}
+                <DisconnectButton>Leave</DisconnectButton>
+              </div>
+            </div>
+          </div>
+        </div>
         <RoomAudioRenderer />
-        {/* Controls for the user to start/stop audio, video, and screen share tracks */}
-        <ControlBar />
       </div>
     </RoomContext.Provider>
   );
@@ -97,5 +158,16 @@ function MyVideoConference() {
       as a template to render all passed-in tracks. */}
       <ParticipantTile />
     </GridLayout>
+  );
+}
+
+function ParticipantsSidebar() {
+  // TODO: List participants with avatar, name, and status
+  // Placeholder for now
+  return (
+    <div style={{ color: "#b5bac1", fontSize: 16, padding: "0 16px" }}>
+      <div style={{ marginBottom: 12, fontWeight: 600, color: "#fff" }}>Participants</div>
+      <div style={{ opacity: 0.7 }}>Coming soon...</div>
+    </div>
   );
 }
